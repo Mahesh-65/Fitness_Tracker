@@ -32,9 +32,12 @@ spec:
           requests:
             memory: "256Mi"
             cpu: "100m"
+        volumeMounts:
+        - name: mongodb-storage
+          mountPath: /data/db
       volumes:
       - name: mongodb-storage
-        emptyDir: {}
+        emptyDir: "512Mi"
 ---
 apiVersion: v1
 kind: Service
