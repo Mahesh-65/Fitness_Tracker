@@ -4,6 +4,11 @@ metadata:
   name: mongodb
 spec:
   replicas: 1
+  strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
   selector:
     matchLabels:
       app: mongodb
@@ -20,6 +25,13 @@ spec:
         volumeMounts:
         - name: mongodb-storage
           mountPath: /data/db
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
       volumes:
       - name: mongodb-storage
         emptyDir: {}
@@ -35,5 +47,3 @@ spec:
   - port: 27017
     targetPort: 27017
   type: ClusterIP
- 
- 
