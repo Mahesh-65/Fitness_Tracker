@@ -4,14 +4,14 @@ metadata:
   name: mongodb
 spec:
   replicas: 1
-  strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 1
   selector:
     matchLabels:
       app: mongodb
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   template:
     metadata:
       labels:
@@ -22,16 +22,13 @@ spec:
         image: mongo:7-jammy
         ports:
         - containerPort: 27017
-        volumeMounts:
-        - name: mongodb-storage
-          mountPath: /data/db
         resources:
-          limits:
-            memory: "512Mi"
-            cpu: "200m"
           requests:
             memory: "256Mi"
             cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
         volumeMounts:
         - name: mongodb-storage
           mountPath: /data/db
