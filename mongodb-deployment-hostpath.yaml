@@ -35,7 +35,7 @@ spec:
       volumes:
       - name: mongodb-storage
         hostPath:
-          path: /home/ubuntu/hostPath-volume
+          path: hostPath-volume
           type: DirectoryOrCreate
 ---
 apiVersion: v1
