@@ -21,8 +21,6 @@ spec:
           image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
           ports:
             - containerPort: 5000
-          # ✔ All configMap vars removed
-          # ✔ Direct env variables added
           envFrom:
             - configMapRef:
                 name: fitness-tracker-config
@@ -48,15 +46,24 @@ spec:
                     operator: In
                     values:
                       - devops
-          antiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - fitness-tracker-app
-                topologyKey: "kubernetes.io/hostname"
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - mongodb
+              topologyKey: "kubernetes.io/hostname"        
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - fitness-tracker-app
+              topologyKey: "kubernetes.io/hostname"
 ---
  
 apiVersion: v1
