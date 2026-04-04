@@ -76,7 +76,7 @@ spec:
           #           values:
           #             - fitness-tracker-app
           #     topologyKey: kubernetes.io/hostname
-          ignoredDuringSchedulingIgnoredDuringExecution:
+          preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 1
               preference:
                 labelSelector:
