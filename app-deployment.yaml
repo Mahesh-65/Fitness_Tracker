@@ -48,24 +48,43 @@ spec:
                       - devops
 
         podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - mongodb
-              topologyKey: kubernetes.io/hostname
+          # requiredDuringSchedulingIgnoredDuringExecution:
+          #   - labelSelector:
+          #       matchExpressions:
+          #         - key: app
+          #           operator: In
+          #           values:
+          #             - mongodb
+          #     topologyKey: kubernetes.io/hostname
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - mongodb
+                topologyKey: kubernetes.io/hostname
 
         podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - fitness-tracker-app
-              topologyKey: kubernetes.io/hostname
+          # requiredDuringSchedulingIgnoredDuringExecution:
+          #   - labelSelector:
+          #       matchExpressions:
+          #         - key: app
+          #           operator: In
+          #           values:
+          #             - fitness-tracker-app
+          #     topologyKey: kubernetes.io/hostname
+          ignoredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - fitness-tracker-app
 ---
  
 apiVersion: v1
