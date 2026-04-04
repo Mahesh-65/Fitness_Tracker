@@ -47,15 +47,15 @@ spec:
                   operator: In
                   values:
                     - devops
-        antiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - fitness-tracker-app
-              topologyKey: "kubernetes.io/hostname"
+      antiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - fitness-tracker-app
+            topologyKey: "kubernetes.io/hostname"
 ---
  
 apiVersion: v1
