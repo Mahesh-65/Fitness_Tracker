@@ -31,8 +31,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
-        nodeSelector:
-          training: devops
+      nodeSelector:
+        training: devops
 ---
  
 apiVersion: v1
