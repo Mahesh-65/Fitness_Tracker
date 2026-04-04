@@ -30,61 +30,48 @@ spec:
                 fieldRef:
                   fieldPath: status.hostIP
       affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: training
-                    operator: In
-                    values:
-                      - devops
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: training
-                    operator: In
-                    values:
-                      - devops
-
-        podAffinity:
-          # requiredDuringSchedulingIgnoredDuringExecution:
-          #   - labelSelector:
-          #       matchExpressions:
-          #         - key: app
-          #           operator: In
-          #           values:
-          #             - mongodb
-          #     topologyKey: kubernetes.io/hostname
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                labelSelector:
-                  matchExpressions:
-                    - key: app
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: training
                       operator: In
                       values:
-                        - mongodb
-                topologyKey: kubernetes.io/hostname
+                        - devops
 
-        podAntiAffinity:
-          # requiredDuringSchedulingIgnoredDuringExecution:
-          #   - labelSelector:
-          #       matchExpressions:
-          #         - key: app
-          #           operator: In
-          #           values:
-          #             - fitness-tracker-app
-          #     topologyKey: kubernetes.io/hostname
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                labelSelector:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                preference:
                   matchExpressions:
-                    - key: app
+                    - key: training
                       operator: In
                       values:
-                        - fitness-tracker-app
+                        - devops
+
+          podAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - mongodb
+                  topologyKey: kubernetes.io/hostname
+
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - fitness-tracker-app
+                  topologyKey: kubernetes.io/hostname
 ---
  
 apiVersion: v1
