@@ -46,6 +46,7 @@ spec:
                     operator: In
                     values:
                       - devops
+
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
@@ -54,7 +55,8 @@ spec:
                     operator: In
                     values:
                       - mongodb
-              topologyKey: "kubernetes.io/hostname"        
+              topologyKey: kubernetes.io/hostname
+
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
@@ -63,7 +65,7 @@ spec:
                     operator: In
                     values:
                       - fitness-tracker-app
-              topologyKey: "kubernetes.io/hostname"
+              topologyKey: kubernetes.io/hostname
 ---
  
 apiVersion: v1
