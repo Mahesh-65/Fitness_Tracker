@@ -31,8 +31,31 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
-      nodeSelector:
-        training: devops
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: training
+                  operator: In
+                  values:
+                    - devops
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+                - key: training
+                  operator: In
+                  values:
+                    - devops
+        antiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - fitness-tracker-app
+              topologyKey: "kubernetes.io/hostname"
 ---
  
 apiVersion: v1
