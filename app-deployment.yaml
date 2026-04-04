@@ -30,48 +30,47 @@ spec:
                 fieldRef:
                   fieldPath: status.hostIP
       affinity:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: training
-                      operator: In
-                      values:
-                        - devops
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: training
+                    operator: In
+                    values:
+                      - devops
 
-            preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 1
-                preference:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: training
+                    operator: In
+                    values:
+                      - devops
+
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
                   matchExpressions:
-                    - key: training
+                    - key: app
                       operator: In
                       values:
-                        - devops
+                        - mongodb
+                topologyKey: kubernetes.io/hostname
 
-          podAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 1
-                podAffinityTerm:
-                  labelSelector:
-                    matchExpressions:
-                      - key: app
-                        operator: In
-                        values:
-                          - mongodb
-                  topologyKey: kubernetes.io/hostname
-
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 1
-                podAffinityTerm:
-                  labelSelector:
-                    matchExpressions:
-                      - key: app
-                        operator: In
-                        values:
-                          - fitness-tracker-app
-                  topologyKey: kubernetes.io/hostname
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - fitness-tracker-app
+                topologyKey: kubernetes.io/hostname
 ---
  
 apiVersion: v1
