@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mongodb
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: mongodb
@@ -32,6 +32,11 @@ spec:
         volumeMounts:
         - name: mongodb-storage
           mountPath: /data/db
+      tolerations:
+        - key: "training"
+          operator: "Equal"
+          value: "devops"
+          effect: "NoSchedule"
       volumes:
       - name: mongodb-storage
         persistentVolumeClaim:
