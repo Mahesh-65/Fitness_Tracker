@@ -1,18 +1,11 @@
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
 metadata:
-  name: fitness-hpa
+  name: fitness-vpa
 spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
+  targetRef:
+    apiVersion: "apps/v1"
     kind: Deployment
     name: fitness-tracker-app
-  minReplicas: 1
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 50
+  updatePolicy:
+    updateMode: "Auto"
