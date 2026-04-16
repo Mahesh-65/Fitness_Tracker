@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: fitness-tracker-app
   namespace: fitness
@@ -37,6 +37,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
+
       # affinity:
       #   nodeAffinity:
       #     requiredDuringSchedulingIgnoredDuringExecution:
@@ -84,6 +85,14 @@ spec:
           operator: "Equal"
           value: "devops"
           effect: "NoSchedule"
+  strategy:
+  blueGreen:
+    activeService: fitness-tracker-service
+    previewService: fitness-tracker-preview-service
+    autoPromotionEnabled: false
+    scaleDownDelaySeconds: 30
+    previewReplicaCount: 1
+
 ---
  
 apiVersion: v1
@@ -97,3 +106,35 @@ spec:
   - port: 81
     targetPort: 5000
   type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fitness-tracker-preview-service
+  namespace: fitness
+
+spec:
+  type: ClusterIP
+  selector:
+    app: fitness-tracker-app
+
+  ports:
+    - port: 81
+      targetPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fitness-tracker-active-service
+  namespace: fitness
+
+spec:
+  type: ClusterIP
+  selector:
+    app: fitness-tracker-app
+
+  ports:
+    - port: 81
+      targetPort: 5000
