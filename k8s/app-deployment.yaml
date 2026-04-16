@@ -113,7 +113,6 @@ metadata:
   namespace: fitness
 
 spec:
-  type: ClusterIP
   selector:
     app: fitness-tracker-app
 
@@ -130,7 +129,6 @@ metadata:
   namespace: fitness
 
 spec:
-  type: ClusterIP
   selector:
     app: fitness-tracker-app
 
