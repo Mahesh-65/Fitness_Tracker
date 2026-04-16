@@ -9,7 +9,7 @@ spec:
     blueGreen:
       activeService: fitness-tracker-active-service
       previewService: fitness-tracker-preview-service
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
 
   selector:
     matchLabels:
