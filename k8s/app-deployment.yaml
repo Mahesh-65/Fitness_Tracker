@@ -4,7 +4,7 @@ metadata:
   name: fitness-tracker-app
   namespace: fitness
 spec:
-  replicas: 2
+  replicas: 4
   strategy:
     blueGreen:
       activeService: fitness-tracker-active-service
