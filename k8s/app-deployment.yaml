@@ -7,7 +7,7 @@ spec:
   replicas: 2
   strategy:
     blueGreen:
-      activeService: fitness-tracker-service
+      activeService: fitness-tracker-active-service
       previewService: fitness-tracker-preview-service
       autoPromotionEnabled: false
 
