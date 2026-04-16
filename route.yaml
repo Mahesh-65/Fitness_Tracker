@@ -12,5 +12,5 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: fitness-tracker-service
+    - name: argocd-server
       port: 81
