@@ -86,12 +86,12 @@ spec:
           value: "devops"
           effect: "NoSchedule"
   strategy:
-  blueGreen:
-    activeService: fitness-tracker-service
-    previewService: fitness-tracker-preview-service
-    autoPromotionEnabled: false
-    scaleDownDelaySeconds: 30
-    previewReplicaCount: 1
+    blueGreen:
+      activeService: fitness-tracker-service
+      previewService: fitness-tracker-preview-service
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
+      previewReplicaCount: 1
 
 ---
  
