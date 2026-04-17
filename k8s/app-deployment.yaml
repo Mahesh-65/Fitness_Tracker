@@ -119,7 +119,7 @@ spec:
   ports:
     - port: 81
       targetPort: 5000
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
 apiVersion: v1
@@ -135,4 +135,4 @@ spec:
   ports:
     - port: 81
       targetPort: 5000
-  type: LoadBalancer
+  type: ClusterIP
