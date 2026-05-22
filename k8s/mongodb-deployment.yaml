@@ -31,10 +31,10 @@ spec:
             memory: "130Mi"
             cpu: "200m"
         volumeMounts:
-          - name: praveen-storage
+          - name: mahesh-storage
             mountPath: /data/db
       volumes:
-        - name: praveen-storage
+        - name: mahesh-storage
           emptyDir: 
             sizeLimit: "512Mi"
 ---
@@ -42,7 +42,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb-service
-  namespace: praveen-ns
+  namespace: mahesh-ns
 spec:
   selector:
     app: mongodb
