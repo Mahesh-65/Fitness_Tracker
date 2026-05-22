@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
-  namespace: praveen-ns
+  namespace: mahesh-ns
 spec:
   replicas: 2
   strategy:
