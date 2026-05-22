@@ -1,16 +1,15 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: fitness-tracker-app
-  namespace: fitness
+  namespace: praveen-ns
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    blueGreen:
-      activeService: fitness-tracker-active-service
-      previewService: fitness-tracker-preview-service
-      autoPromotionEnabled: true
-
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   selector:
     matchLabels:
       app: fitness-tracker-app
@@ -35,104 +34,56 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "200m"
-          envFrom:
-            - configMapRef:
-                name: fitness-tracker-config
+          # ✔ All configMap vars removed
+          # ✔ Direct env variables added
           env:
+            - name: MONGODB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: fitness-configmap 
+                  key: MONGODB_URI
+              
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: fitness-configmap
+                  key: PORT
+
+            - name: HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: fitness-configmap
+                  key: HOST 
+
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: fitness-configmap
+                  key: NODE_ENV 
+            # Datadog APM (tracing) env variables
             - name: DD_AGENT_HOST
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
-
-      # affinity:
-      #   nodeAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       nodeSelectorTerms:
-      #         - matchExpressions:
-      #             - key: training
-      #               operator: In
-      #               values:
-      #                 - devops
-
-      #     preferredDuringSchedulingIgnoredDuringExecution:
-      #       - weight: 1
-      #         preference:
-      #           matchExpressions:
-      #             - key: training
-      #               operator: In
-      #               values:
-      #                 - devops
-
-      #   podAffinity:
-      #     preferredDuringSchedulingIgnoredDuringExecution:
-      #       - weight: 1
-      #         podAffinityTerm:
-      #           labelSelector:
-      #             matchExpressions:
-      #               - key: app
-      #                 operator: In
-      #                 values:
-      #                   - mongodb
-      #           topologyKey: kubernetes.io/hostname
-
-      #   podAntiAffinity:
-      #     preferredDuringSchedulingIgnoredDuringExecution:
-      #       - weight: 1
-      #         podAffinityTerm:
-      #           labelSelector:
-      #             matchExpressions:
-      #               - key: app
-      #                 operator: In
-      #                 values:
-      #                   - fitness-tracker-app
-      #           topologyKey: kubernetes.io/hostname
-      tolerations:
-        - key: "training"
-          operator: "Equal"
-          value: "devops"
-          effect: "NoSchedule"
+            - name: DD_TRACE_AGENT_PORT
+              value: "8126"
+            - name: DD_ENV
+              value: "production"
+            - name: DD_SERVICE
+              value: "fitness-tracker-app"
+            - name: DD_VERSION
+              value: "1.0.0"
 ---
- 
+
 apiVersion: v1
 kind: Service
 metadata:
   name: fitness-tracker-service
+  namespace: praveen-ns
 spec:
   selector:
     app: fitness-tracker-app
   ports:
-  - port: 81
+  - port: 80
     targetPort: 5000
-  type: LoadBalancer
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fitness-tracker-preview-service
-  namespace: fitness
-
-spec:
-  selector:
-    app: fitness-tracker-app
-
-  ports:
-    - port: 81
-      targetPort: 5000
-  type: ClusterIP
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fitness-tracker-active-service
-  namespace: fitness
-
-spec:
-  selector:
-    app: fitness-tracker-app
-
-  ports:
-    - port: 81
-      targetPort: 5000
-  type: ClusterIP
+  type: NodePort
