@@ -30,13 +30,13 @@ spec:
           limits:
             memory: "130Mi"
             cpu: "200m"
-        volumeMounts:
-          - name: mahesh-storage
-            mountPath: /data/db
-      volumes:
-        - name: mahesh-storage
-          emptyDir: 
-            sizeLimit: "512Mi"
+      #   volumeMounts:
+      #     - name: mahesh-storage
+      #       mountPath: /data/db
+      # volumes:
+      #   - name: mahesh-storage
+      #     emptyDir: 
+      #       sizeLimit: "512Mi"
 ---
 apiVersion: v1
 kind: Service
