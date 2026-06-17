@@ -8,7 +8,7 @@ pool:
   vmImage: 'ubuntu-latest'
  
 variables:
-  imageRepository: 'fitnessapp'
+  imageRepository: 'fitness'
   imageTag: '$(Build.BuildId)'
  
 steps:
