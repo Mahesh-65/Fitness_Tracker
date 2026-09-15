@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "generated_at": "2026-09-15T06:52:06.592180+00:00",
+  "generation_type": "flat_generation",
+  "project": {
+    "id": "c9329696-f4c7-45f8-b446-ba4319331444",
+    "name": "test",
+    "description": "",
+    "repository_count": 1
+  },
+  "knowledgeSources": [
+    {
+      "id": "fitness-tracker",
+      "type": "git",
+      "location": [
+        "https://github.com/Mahesh-65/Fitness_Tracker.git"
+      ],
+      "branch": "main",
+      "include": [
+        "**/*.md"
+      ]
+    }
+  ],
+  "repositories": {
+    "Fitness_Tracker": {
+      "url": "https://github.com/Mahesh-65/Fitness_Tracker",
+      "branch": "main",
+      "language": "typescript",
+      "status": "ready"
+    }
+  },
+  "artifacts": {
+    ".kiro/settings/mcp.json": {
+      "type": "json_configuration",
+      "generatedAt": "2026-09-15T06:52:06.592180+00:00",
+      "source": "migration"
+    },
+    ".kiro/agents/story_eval_agent.md": {
+      "type": "markdown_document",
+      "generatedAt": "2026-09-15T06:52:06.592180+00:00",
+      "source": "migration"
+    }
+  },
+  "agents": {
+    "story-eval": {
+      "path": ".kiro/agents/story_eval_agent.md",
+      "type": "advisory",
+      "description": "Advisory Jira-story validator"
+    }
+  },
+  "mcp": {
+    "config_path": ".kiro/settings/mcp.json",
+    "servers": [
+      "jira"
+    ]
+  },
+  "statistics": {
+    "total_knowledge_sources": 1,
+    "total_repositories": 1,
+    "total_artifacts": 2
+  }
+}
